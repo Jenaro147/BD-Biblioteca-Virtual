@@ -10,7 +10,7 @@ GO
 CREATE TABLE  CATEGORIA(
 IdCategoria int primary key identity,
 Descripcion varchar(50),
-Estado bit default 1,
+--Estado bit default 1,
 FechaCreacion datetime default getdate()
 )
 
@@ -21,7 +21,7 @@ IdEditorial int primary key identity,
 Descripcion varchar(50),
 Direccion varchar(50),
 Telefono varchar(50),
-Estado bit default 1,
+--Estado bit default 1,
 FechaCreacion datetime default getdate()
 )
 
@@ -31,7 +31,7 @@ go
 CREATE TABLE  AUTOR(
 IdAutor int primary key identity,
 Descripcion varchar(50),
-Estado bit default 1,
+--Estado bit default 1,
 FechaCreacion datetime default getdate()
 )
 

@@ -4,12 +4,16 @@ USE DB_BIBLIOTECA
 go
 select * from TIPO_PERSONA;
 select * from LIBRO;
+select * from AUTOR;
+
+Delete from TIPO_PERSONA;
 insert into TIPO_PERSONA(IdTipoPersona, Descripcion) values
 (1,'Administrador'),
-(2,'Empleado'),
+(2,'Usuario'),
 (3,'Lector')
 
 GO
+Delete from PERSONA;
 insert into PERSONA(nombre,apellido,correo,clave,IdTipoPersona) values
 ('Naomi','Konoe','Konoe@gmail.com','123',1),
 ('Jenaro','Quesada','jenaro0103@gmail.com','123456',1),

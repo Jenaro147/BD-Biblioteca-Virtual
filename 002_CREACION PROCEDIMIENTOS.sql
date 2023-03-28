@@ -28,7 +28,7 @@ go
 create procedure sp_ModificarCategoria(
 @IdCategoria int,
 @Descripcion varchar(60),
-@Estado bit,
+--@Estado bit,
 @Resultado bit output
 )
 as
@@ -37,8 +37,8 @@ begin
 	IF NOT EXISTS (SELECT * FROM CATEGORIA WHERE Descripcion =@Descripcion and IdCategoria != @IdCategoria)
 		
 		update CATEGORIA set 
-		Descripcion = @Descripcion,
-		Estado = @Estado
+		Descripcion = @Descripcion
+		--Estado = @Estado
 		where IdCategoria = @IdCategoria
 	ELSE
 		SET @Resultado = 0
@@ -72,7 +72,7 @@ go
 create procedure sp_ModificarEditorial(
 @IdEditorial int,
 @Descripcion varchar(60),
-@Estado bit,
+--@Estado bit,
 @Resultado bit output
 )
 as
@@ -81,8 +81,8 @@ begin
 	IF NOT EXISTS (SELECT * FROM EDITORIAL WHERE Descripcion =@Descripcion and IdEditorial != @IdEditorial)
 		
 		update EDITORIAL set 
-		Descripcion = @Descripcion,
-		Estado = @Estado
+		Descripcion = @Descripcion
+		--Estado = @Estado
 		where IdEditorial = @IdEditorial
 	ELSE
 		SET @Resultado = 0
@@ -126,8 +126,8 @@ begin
 	IF NOT EXISTS (SELECT * FROM AUTOR WHERE Descripcion =@Descripcion and IdAutor != @IdAutor)
 		
 		update AUTOR set 
-		Descripcion = @Descripcion,
-		Estado = @Estado
+		Descripcion = @Descripcion
+		--Estado = @Estado
 		where IdAutor = @IdAutor
 	ELSE
 		SET @Resultado = 0
@@ -144,7 +144,7 @@ create proc sp_registrarLibro(
 @IdAutor int,
 @IdCategoria int,
 @IdEditorial int,
-@Ubicacion varchar(100),
+--@Ubicacion varchar(100),
 @Ejemplares int,
 @Resultado int output
 )
@@ -153,9 +153,9 @@ begin
 	SET @Resultado = 0
 	IF NOT EXISTS (SELECT * FROM LIBRO WHERE Titulo = @Titulo)
 	begin
-		insert into LIBRO(Titulo,RutaPortada,NombrePortada,IdAutor,IdCategoria,IdEditorial,Ubicacion,Ejemplares) values (
-		@Titulo,@RutaPortada,@NombrePortada,@IdAutor,@IdCategoria,@IdEditorial,@Ubicacion,@Ejemplares)
-
+		insert into LIBRO(Titulo,RutaPortada,NombrePortada,IdAutor,IdCategoria,IdEditorial,Ejemplares) values (
+		@Titulo,@RutaPortada,@NombrePortada,@IdAutor,@IdCategoria,@IdEditorial,@Ejemplares)
+--,Ubicacion,@Ubicacion
 		SET @Resultado = scope_identity()
 	end
 end
@@ -168,7 +168,7 @@ create proc sp_modificarLibro(
 @IdAutor int,
 @IdCategoria int,
 @IdEditorial int,
-@Ubicacion varchar(100),
+--@Ubicacion varchar(100),
 @Ejemplares int,
 @Estado bit,
 @Resultado bit output
@@ -184,7 +184,7 @@ begin
 		IdAutor = @IdAutor,
 		IdCategoria = @IdCategoria,
 		IdEditorial = @IdEditorial,
-		Ubicacion = @Ubicacion,
+		--Ubicacion = @Ubicacion,
 		Ejemplares = @Ejemplares,
 		Estado = @Estado
 		where IdLibro = @IdLibro
