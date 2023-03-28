@@ -19,6 +19,8 @@ go
 CREATE TABLE  EDITORIAL(
 IdEditorial int primary key identity,
 Descripcion varchar(50),
+Direccion varchar(50),
+Telefono varchar(50),
 Estado bit default 1,
 FechaCreacion datetime default getdate()
 )
@@ -43,7 +45,6 @@ NombrePortada varchar(100),
 IdAutor int references AUTOR(IdAutor),
 IdCategoria int references CATEGORIA(IdCategoria),
 IdEditorial int references EDITORIAL(IdEditorial),
-Ubicacion varchar(50),
 Ejemplares int,
 Estado bit default 1,
 FechaCreacion datetime default getdate()
