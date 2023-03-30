@@ -51,14 +51,18 @@ GO
 --PROCEDIMIENTO PARA GUARDAR EDITORIAL
 CREATE PROC sp_RegistrarEditorial(
 @Descripcion varchar(50),
+@Direccion varchar(50),
+@Telefono varchar (50),
 @Resultado bit output
 )as
 begin
 	SET @Resultado = 1
 	IF NOT EXISTS (SELECT * FROM EDITORIAL WHERE Descripcion = @Descripcion)
 
-		insert into EDITORIAL(Descripcion) values (
-		@Descripcion
+		insert into EDITORIAL(Descripcion,Direccion,Telefono) values (
+		@Descripcion,
+		@Direccion,
+		@Telefono
 		)
 	ELSE
 		SET @Resultado = 0
@@ -68,11 +72,14 @@ end
 
 go
 
+DROP  PROC sp_RegistrarEditorial
+
 --PROCEDIMIENTO PARA MODIFICAR EDITORIAL
-create procedure sp_ModificarEditorial(
+CREATE PROC sp_ModificarEditorial(
 @IdEditorial int,
 @Descripcion varchar(60),
---@Estado bit,
+@Direccion varchar(50),
+@Telefono varchar (50),
 @Resultado bit output
 )
 as
@@ -81,8 +88,9 @@ begin
 	IF NOT EXISTS (SELECT * FROM EDITORIAL WHERE Descripcion =@Descripcion and IdEditorial != @IdEditorial)
 		
 		update EDITORIAL set 
-		Descripcion = @Descripcion
-		--Estado = @Estado
+		Descripcion = @Descripcion,
+		Direccion = @Direccion,
+		Telefono = @Direccion
 		where IdEditorial = @IdEditorial
 	ELSE
 		SET @Resultado = 0
@@ -137,6 +145,8 @@ end
 
 go
 
+
+--PROCEDIMIENTO PARA MODIFICAR LIBRO
 create proc sp_registrarLibro(
 @Titulo varchar(100),
 @RutaPortada varchar(100),
@@ -144,8 +154,7 @@ create proc sp_registrarLibro(
 @IdAutor int,
 @IdCategoria int,
 @IdEditorial int,
---@Ubicacion varchar(100),
-@Ejemplares int,
+@Paginas int,
 @Resultado int output
 )
 as
@@ -153,9 +162,8 @@ begin
 	SET @Resultado = 0
 	IF NOT EXISTS (SELECT * FROM LIBRO WHERE Titulo = @Titulo)
 	begin
-		insert into LIBRO(Titulo,RutaPortada,NombrePortada,IdAutor,IdCategoria,IdEditorial,Ejemplares) values (
-		@Titulo,@RutaPortada,@NombrePortada,@IdAutor,@IdCategoria,@IdEditorial,@Ejemplares)
---,Ubicacion,@Ubicacion
+		insert into LIBRO(Titulo,RutaPortada,NombrePortada,IdAutor,IdCategoria,IdEditorial,Paginas) values (
+		@Titulo,@RutaPortada,@NombrePortada,@IdAutor,@IdCategoria,@IdEditorial,@Paginas)
 		SET @Resultado = scope_identity()
 	end
 end
@@ -168,8 +176,7 @@ create proc sp_modificarLibro(
 @IdAutor int,
 @IdCategoria int,
 @IdEditorial int,
---@Ubicacion varchar(100),
-@Ejemplares int,
+@Paginas int,
 @Estado bit,
 @Resultado bit output
 )
@@ -184,8 +191,7 @@ begin
 		IdAutor = @IdAutor,
 		IdCategoria = @IdCategoria,
 		IdEditorial = @IdEditorial,
-		--Ubicacion = @Ubicacion,
-		Ejemplares = @Ejemplares,
+		Paginas = @Paginas,
 		Estado = @Estado
 		where IdLibro = @IdLibro
 
@@ -208,22 +214,22 @@ end
 
 GO
 
-CREATE FUNCTION fn_obtenercorrelativo(@numero int)
+CREATE FUNCTION fn_obtenercodigo(@numero int)
 
 RETURNS varchar(100)
 AS
 BEGIN
-	DECLARE @correlativo varchar(100)
+	DECLARE @obtenercodigo varchar(100)
 
-	set @correlativo = 'LE' + RIGHT('000000' + CAST(@numero AS varchar), 6)
+	set @obtenercodigo = 'COD' + RIGHT('0000' + CAST(@numero AS varchar), 6)
 
-	RETURN @correlativo
+	RETURN @obtenercodigo
 
 END
 
 GO
 
---PROCEDIMIENTO PARA GUARDAR CATEGORIA
+--PROCEDIMIENTO PARA Registrar Persona
 create PROC sp_RegistrarPersona(
 @Nombre varchar(50),
 @Apellido varchar(50),
@@ -242,12 +248,12 @@ begin
 
 		SET @IDPERSONA = SCOPE_IDENTITY()
 		print @IDPERSONA
-		if(@IdTipoPersona = 3)
+		if(@IdTipoPersona = 1 OR @IdTipoPersona = 2)
 		begin
 			print 'si es igual'
 			UPDATE PERSONA SET 
-			Codigo = dbo.fn_obtenercorrelativo(@IDPERSONA),
-			Clave = dbo.fn_obtenercorrelativo(@IDPERSONA)
+			Codigo = dbo.fn_obtenercodigo(@IDPERSONA),
+			Clave = dbo.fn_obtenercodigo(@IDPERSONA)
 			WHERE IdPersona = @IDPERSONA
 		end
 	end
@@ -259,7 +265,7 @@ end
 
 go
 
---PROCEDIMIENTO PARA MODIFICAR CATEGORIA
+--PROCEDIMIENTO PARA MODIFICAR Persona
 create procedure sp_ModificarPersona(
 @IdPersona int,
 @Nombre varchar(50),
@@ -291,17 +297,17 @@ GO
 
 
 create PROC sp_RegistrarPrestamo(
-@IdEstadoPrestamo int,
+--@IdEstadoPrestamo int,
 @IdPersona int,
 @IdLibro int,
-@FechaDevolucion datetime,
-@EstadoEntregado varchar(500),
+--@FechaDevolucion datetime,
+--@EstadoEntregado varchar(500),
 @Resultado bit output
 )as
 begin
 	SET DATEFORMAT dmy; 
-	INSERT INTO PRESTAMO(IdEstadoPrestamo,IdPersona,IdLibro,FechaDevolucion,EstadoEntregado)
-	values(@IdEstadoPrestamo,@IdPersona,@IdLibro,@FechaDevolucion,@EstadoEntregado)
+	INSERT INTO PRESTAMO(IdPersona,IdLibro)
+	values(@IdPersona,@IdLibro)
 
 	SET @Resultado = 1
 end
