@@ -28,7 +28,6 @@ go
 create procedure sp_ModificarCategoria(
 @IdCategoria int,
 @Descripcion varchar(60),
---@Estado bit,
 @Resultado bit output
 )
 as
@@ -38,13 +37,12 @@ begin
 		
 		update CATEGORIA set 
 		Descripcion = @Descripcion
-		--Estado = @Estado
+
 		where IdCategoria = @IdCategoria
 	ELSE
 		SET @Resultado = 0
 
 end
-
 GO
 
 
@@ -68,11 +66,9 @@ begin
 		SET @Resultado = 0
 	
 end
-
-
 go
 
-DROP  PROC sp_RegistrarEditorial
+
 
 --PROCEDIMIENTO PARA MODIFICAR EDITORIAL
 CREATE PROC sp_ModificarEditorial(
@@ -117,9 +113,8 @@ begin
 		SET @Resultado = 0
 	
 end
-
-
 go
+
 
 --PROCEDIMIENTO PARA MODIFICAR AUTOR
 create procedure sp_ModificarAutor(
@@ -135,7 +130,7 @@ begin
 		
 		update AUTOR set 
 		Descripcion = @Descripcion
-		--Estado = @Estado
+
 		where IdAutor = @IdAutor
 	ELSE
 		SET @Resultado = 0
@@ -252,8 +247,7 @@ begin
 		begin
 			print 'si es igual'
 			UPDATE PERSONA SET 
-			Codigo = dbo.fn_obtenercodigo(@IDPERSONA),
-			Clave = dbo.fn_obtenercodigo(@IDPERSONA)
+			Codigo = dbo.fn_obtenercodigo(@IDPERSONA)
 			WHERE IdPersona = @IDPERSONA
 		end
 	end
@@ -264,6 +258,8 @@ end
 
 
 go
+
+DROP PROC sp_RegistrarPersona
 
 --PROCEDIMIENTO PARA MODIFICAR Persona
 create procedure sp_ModificarPersona(
@@ -297,11 +293,8 @@ GO
 
 
 create PROC sp_RegistrarPrestamo(
---@IdEstadoPrestamo int,
 @IdPersona int,
 @IdLibro int,
---@FechaDevolucion datetime,
---@EstadoEntregado varchar(500),
 @Resultado bit output
 )as
 begin
