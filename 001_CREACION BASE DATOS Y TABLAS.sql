@@ -94,3 +94,18 @@ FechaCreacion datetime default getdate()
 )
 
 go
+
+CREATE TABLE CONTACTO(
+IdContacto int primary key identity,
+Nombre varchar(50),
+Apellido varchar(50),
+Correo varchar(50),
+--Clave varchar(50),
+--Codigo varchar(50),
+--IdTipoPersona int references TIPO_PERSONA(IdTipoPersona),
+--Estado bit default 1,
+FechaCreacion datetime default getdate()
+)
+
+go
+drop table Contacto

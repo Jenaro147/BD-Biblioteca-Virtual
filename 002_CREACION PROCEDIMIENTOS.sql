@@ -259,7 +259,7 @@ end
 
 go
 
-DROP PROC sp_RegistrarPersona
+--DROP PROC sp_RegistrarPersona
 
 --PROCEDIMIENTO PARA MODIFICAR Persona
 create procedure sp_ModificarPersona(
@@ -324,3 +324,70 @@ begin
 end
 
 
+
+--- Registrar contacto
+create PROC sp_RegistrarContacto(
+@Nombre varchar(50),
+@Apellido varchar(50),
+@Correo varchar(50),
+--@Clave varchar(50),
+--@IdTipoPersona int,
+@Resultado bit output
+)as
+begin
+	SET @Resultado = 1
+	DECLARE @IdContacto INT 
+	IF NOT EXISTS (SELECT * FROM CONTACTO WHERE correo = @Correo)
+	begin
+		insert into CONTACTO(Nombre,Apellido,Correo) values (
+		@Nombre,@Apellido,@Correo)
+		--,@IdTipoPersona,@Clave    ,IdTipoPersona,Clave
+		SET @IdContacto = SCOPE_IDENTITY()
+		print @IdContacto
+		--if(@IdTipoPersona = 3)
+		--begin
+		--	print 'si es igual'
+		--	UPDATE PERSONA SET 
+		--	Codigo = dbo.fn_obtenercorrelativo(@IDPERSONA),
+		--	Clave = dbo.fn_obtenercorrelativo(@IDPERSONA)
+		--	WHERE IdPersona = @IDPERSONA
+		--end
+	end
+	ELSE
+		SET @Resultado = 0
+	
+end
+
+
+go
+--Drop proc sp_RegistrarContacto
+--modificar contacto
+create procedure sp_ModificarContacto(
+@IdContacto int,
+@Nombre varchar(50),
+@Apellido varchar(50),
+@Correo varchar(50),
+--@Clave varchar(50),
+--@IdTipoPersona int,
+--@Estado bit,
+@Resultado bit output
+)
+as
+begin
+	SET @Resultado = 1
+	IF NOT EXISTS (SELECT * FROM CONTACTO WHERE correo =@Correo and IdContacto != @IdContacto)
+		
+		update CONTACTO set 
+		Nombre = @Nombre,
+		Apellido = @Apellido,
+		Correo = @Correo
+		--IdTipoPersona = @IdTipoPersona,
+		--Estado = @Estado
+		where IdContacto = @IdContacto
+	ELSE
+		SET @Resultado = 0
+
+end
+
+GO
+--Drop proc sp_ModificarContacto

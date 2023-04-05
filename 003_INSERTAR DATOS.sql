@@ -5,12 +5,13 @@ go
 select * from TIPO_PERSONA;
 select * from LIBRO;
 select * from AUTOR;
+select * from CONTACTO;
 
 Delete from TIPO_PERSONA;
 insert into TIPO_PERSONA(IdTipoPersona, Descripcion) values
 (1,'Administrador'),
-(2,'Usuario'),
-(3,'Lector')
+(2,'Usuario')
+--(3,'Lector')
 
 GO
 Delete from PERSONA;
