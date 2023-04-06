@@ -72,40 +72,14 @@ FechaCreacion datetime default getdate()
 
 go
 
---CREATE TABLE ESTADO_PRESTAMO(
---IdEstadoPrestamo int primary key,
---Descripcion varchar(50),
---Estado bit default 1,
---FechaCreacion datetime default getdate()
---)
---GO
 
-CREATE TABLE PRESTAMO(
-IdPrestamo int primary key identity,
---IdEstadoPrestamo int references ESTADO_PRESTAMO(IdEstadoPrestamo),
+
+CREATE TABLE DESCARGA(
+IdDescarga int primary key identity,
 IdPersona int references PERSONA(IdPersona),
 IdLibro int references Libro(IdLibro),
---FechaDevolucion datetime,
---FechaConfirmacionDevolucion datetime,
---EstadoEntregado varchar(100),
---EstadoRecibido varchar(100),
---Estado bit default 1,
 FechaCreacion datetime default getdate()
 )
 
 go
 
-CREATE TABLE CONTACTO(
-IdContacto int primary key identity,
-Nombre varchar(50),
-Apellido varchar(50),
-Correo varchar(50),
---Clave varchar(50),
---Codigo varchar(50),
---IdTipoPersona int references TIPO_PERSONA(IdTipoPersona),
---Estado bit default 1,
-FechaCreacion datetime default getdate()
-)
-
-go
-drop table Contacto
