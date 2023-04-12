@@ -75,13 +75,3 @@ FechaCreacion datetime default getdate()
 go
 
 
-
-CREATE TABLE DESCARGA(
-IdDescarga int primary key identity,
-IdPersona int references PERSONA(IdPersona),
-IdLibro int references Libro(IdLibro),
-FechaCreacion datetime default getdate()
-)
-
-go
-

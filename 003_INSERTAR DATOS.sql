@@ -2,9 +2,7 @@
 
 USE DB_BIBLIOTECA
 go
-select * from TIPO_PERSONA;
-select * from LIBRO;
-select * from AUTOR;
+
 
 Delete from TIPO_PERSONA;
 insert into TIPO_PERSONA(IdTipoPersona, Descripcion) values
@@ -21,8 +19,10 @@ go
 
 
 
-SELECT * FROM LIBRO 
-
-
-DELETE FROM LIBRO
+SELECT * FROM LIBRO;
+SELECT * FROM TIPO_PERSONA;
+SELECT * FROM CATEGORIA;
+SELECT * FROM AUTOR;
+SELECT * FROM EDITORIAL;
+SELECT * FROM PERSONA;
 

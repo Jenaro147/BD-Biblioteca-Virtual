@@ -150,6 +150,7 @@ create proc sp_registrarLibro(
 @IdCategoria int,
 @IdEditorial int,
 @Paginas int,
+@Archivo varchar(500),
 @Resultado int output
 )
 as
@@ -157,13 +158,15 @@ begin
 	SET @Resultado = 0
 	IF NOT EXISTS (SELECT * FROM LIBRO WHERE Titulo = @Titulo)
 	begin
-		insert into LIBRO(Titulo,RutaPortada,NombrePortada,IdAutor,IdCategoria,IdEditorial,Paginas) values (
-		@Titulo,@RutaPortada,@NombrePortada,@IdAutor,@IdCategoria,@IdEditorial,@Paginas)
+		insert into LIBRO(Titulo,RutaPortada,NombrePortada,IdAutor,IdCategoria,IdEditorial,Paginas,Archivo) values (
+		@Titulo,@RutaPortada,@NombrePortada,@IdAutor,@IdCategoria,@IdEditorial,@Paginas,@Archivo)
 		SET @Resultado = scope_identity()
 	end
 end
 
 go
+
+DROP PROC sp_registrarLibro
 
 
 --PROCEDIMIENTO PARA MODIFICAR LIBRO
@@ -174,6 +177,7 @@ create proc sp_modificarLibro(
 @IdCategoria int,
 @IdEditorial int,
 @Paginas int,
+@Archivo varchar(500),
 @Estado bit,
 @Resultado bit output
 )
@@ -292,23 +296,5 @@ begin
 end
 
 GO
-
-
---PROCEDIMIENTO PARA REGISTRAR DESCARGAS
-create PROC sp_RegistrarDescarga(
-@IdPersona int,
-@IdLibro int,
-@Resultado bit output
-)as
-begin
-	SET DATEFORMAT dmy; 
-	INSERT INTO DESCARGA(IdPersona,IdLibro)
-	values(@IdPersona,@IdLibro)
-
-	SET @Resultado = 1
-end
-
-
-go
 
 
