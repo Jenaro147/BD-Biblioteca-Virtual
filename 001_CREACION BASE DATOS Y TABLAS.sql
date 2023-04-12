@@ -43,11 +43,13 @@ IdAutor int references AUTOR(IdAutor),
 IdCategoria int references CATEGORIA(IdCategoria),
 IdEditorial int references EDITORIAL(IdEditorial),
 Paginas int,
+Archivo varchar(500),
 Estado bit default 1,
 FechaCreacion datetime default getdate()
 )
 
 GO
+DROP TABLE LIBRO
 
 CREATE TABLE TIPO_PERSONA(
 IdTipoPersona  int primary key,
